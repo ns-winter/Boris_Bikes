@@ -10,6 +10,7 @@ attr_reader :bike
   end
 
   def dock(bike)
+    raise "Station Full Up!" if @bike
     @bike = bike
   end
 
