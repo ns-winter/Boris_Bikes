@@ -5,7 +5,7 @@ attr_reader :bike
     if @bike == nil #Guard condition if no bikes present
       raise RuntimeError, "No Bikes!"
     else
-      Bike.new
+      @bike
     end
   end
 
