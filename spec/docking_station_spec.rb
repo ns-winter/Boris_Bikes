@@ -1,33 +1,41 @@
-require "docking_station"
-
+require 'docking_station'
 
 describe DockingStation do
-
-  it { should respond_to(:release_bike) }
-
-  it { should respond_to(:dock).with(1).argument }
-
-  it "should release working bike" do
-    if @bike != nil
-      expect(subject.release_bike).to be_working
-    end
+  it " creates an instance of DockingStation" do
+    expect(DockingStation.new).to be_an_instance_of(DockingStation)
   end
 
-  it "should raise an error if trying to release a bike with none present" do
-    if @bike == nil
-      expect {subject.release_bike}.to raise_error("No Bikes!")
-    end
-  end
+ it {is_expected.to respond_to(:release_bike)}
 
+ it 'expects DockingStation to get a bike' do
+   subject.dock(Bike.new)
+   expect(subject.release_bike).to be_an_instance_of(Bike)
 end
 
-  RSpec.describe DockingStation.new do
-  it "should raise an error if trying to dock a bike when one is already there" do
-    if @bike
-      expect { subject.dock Bike.new }.to raise_error("Station Full Up!")
-    end
+it 'expects bike to be working' do
+  subject.dock(Bike.new)
+  expect(subject.release_bike.working?).to eq true
+ end
+
+ it 'expects docking_station to be initialized with an argument' do
+   docking_station = DockingStation.new
+ expect(docking_station).to respond_to(:dock).with(1).argument
+ end
+
+ it 'expects docking_station to respond to the dock method' do
+   docking_station = DockingStation.new
+   expect(docking_station).to respond_to(:dock)
+ end
+
+ it 'should raise an error when docking station is empty' do
+   if @capacity == nil
+     expect{subject.release_bike}.to raise_error("no bikes")
+  end
+end
+
+  it 'should raise an error when docking station is full' do
+     DockingStation::DEFAULT_CAPACITY.times {subject.dock(Bike.new)}
+    expect{  subject.dock(Bike.new)}.to raise_error("full up")
   end
 
-
-
-end
+ end

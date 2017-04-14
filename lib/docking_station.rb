@@ -1,17 +1,45 @@
 class DockingStation
-attr_reader :bike
+  attr_reader :capacity
+  DEFAULT_CAPACITY = 20
+  def initialize
+    capacity = []
+    @capacity = capacity
+  end
 
   def release_bike
-    if @bike == nil #Guard condition if no bikes present
-      raise RuntimeError, "No Bikes!"
+    if empty?
+     raise "no bikes"
     else
-      @bike
+      @capacity.pop
     end
   end
 
   def dock(bike)
-    raise "Station Full Up!" if @bike
-    @bike = bike
+    if full?
+      raise "full up"
+    else
+      @capacity.push(bike)
+    end
+  end
+
+  private
+
+  def full?
+    if @capacity.size >= DEFAULT_CAPACITY
+      true
+    else
+      false
+    end
+  end
+
+  def empty?
+    if @capacity == []
+      true
+    else
+      false
+    end
   end
 
 end
+
+docking_station = DockingStation.new
