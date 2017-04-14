@@ -8,12 +8,12 @@ describe DockingStation do
  it {is_expected.to respond_to(:release_bike)}
 
  it 'expects DockingStation to get a bike' do
-   subject.dock(Bike.new)
+   subject.dock(double(:bike))
    expect(subject.release_bike).to be_an_instance_of(Bike)
 end
 
 it 'expects bike to be working' do
-  subject.dock(Bike.new)
+  subject.dock(double(:bike))
   expect(subject.release_bike.working?).to eq true
  end
 
@@ -34,8 +34,8 @@ it 'expects bike to be working' do
 end
 
   it 'should raise an error when docking station is full' do
-     DockingStation::DEFAULT_CAPACITY.times {subject.dock(Bike.new)}
-    expect{subject.dock(Bike.new)}.to raise_error("full up")
+     DockingStation::DEFAULT_CAPACITY.times {subject.dock(double(:bike))}
+    expect{subject.dock(double(:bike))}.to raise_error("full up")
   end
 
   it 'should have a default capacity of 20' do
@@ -50,7 +50,7 @@ end
 
   it 'should not release a broken bike' do
     docking_station = DockingStation.new
-    bike = Bike.new
+    bike = double(:bike)
     bike.report_as_broken
     docking_station.dock(bike)
     expect{docking_station.release_bike}.to raise_error("no working bikes")
