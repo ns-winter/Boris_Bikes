@@ -9,9 +9,11 @@ class DockingStation
   end
 
   def release_bike
-    if empty?
-     raise "no bikes"
-    else
+    if bikes.empty? || bikes.all?{|bike| bike.working? == false}
+      raise "no working bikes"
+    else until bikes[-1].working? == true
+      @bikes.insert(0, @bikes.pop)
+    end
       @bikes.pop
     end
   end
@@ -27,7 +29,7 @@ class DockingStation
   private
 
   def full?
-    if @bikes.size >= DEFAULT_CAPACITY
+    if @bikes.size >= @capacity
       true
     else
       false

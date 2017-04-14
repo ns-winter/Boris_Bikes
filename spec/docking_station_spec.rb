@@ -29,7 +29,7 @@ it 'expects bike to be working' do
 
  it 'should raise an error when docking station is empty' do
    if @capacity == nil
-     expect{subject.release_bike}.to raise_error("no bikes")
+     expect{subject.release_bike}.to raise_error("no working bikes")
   end
 end
 
@@ -46,6 +46,14 @@ end
   it 'should accept having a capacity of 40' do
     ds = DockingStation.new(40)
     expect(ds.capacity == 40).to eq true
+  end
+
+  it 'should not release a broken bike' do
+    docking_station = DockingStation.new
+    bike = Bike.new
+    bike.report_as_broken
+    docking_station.dock(bike)
+    expect{docking_station.release_bike}.to raise_error("no working bikes")
   end
 
  end
